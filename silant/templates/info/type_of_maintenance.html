@@ -1,0 +1,32 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+<!-- Название у нас будет Product -->
+{% block title %}
+Вид ТО
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+<br>
+<h5>Информация о виде ТО</h5>
+<hr>
+{% if type_of_maintenance %}
+<div>
+    <h5>Название:</h5>
+    <p>{{type_of_maintenance.title }}</p>
+</div>
+<div>
+    <h5>Описание:</h5>
+    <p>{{type_of_maintenance.description }}</p>
+</div>
+{% else %}
+<h2>Вид ТО отсутсвует!</h2>
+{% endif %}
+</hr>
+{% if user.is_superuser or user_in_group_manager %}
+    <button><a href="{% url 'type_of_maintenance_create' %}">Создать вид ТО</a></button>
+    <button><a href="{% url 'type_of_maintenance_update' type_of_maintenance.pk %}">Редактировать вид ТО</a></button>
+    <button><a href="{% url 'type_of_maintenance_delete' type_of_maintenance.pk %}">Удалить вид ТО</a></button>
+{% endif %}
+{% endblock content %}

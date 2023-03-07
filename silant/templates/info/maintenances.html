@@ -1,0 +1,52 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+
+<!-- Название у нас будет cars -->
+{% block title %}
+Maintenances
+{% endblock title %}
+ 
+<!-- В контенте на странице мы выводим все машины -->
+{% block content %}
+   <h1>Все TO</h1>
+
+   {# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе #}
+   <form action = "" method = "get">
+       {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
+       {{ filterset.form.as_p}}
+       {# Добавим кнопку отправки данных формы #}
+       <input type = "submit" valut = "Найти" />
+    </form>
+
+    <hr>
+    {% if maintenances %}
+       <table> <!-- Начинаем описывать таблицу -->
+           <tr> <!-- Добавляем строку -->
+               <td> Вид ТО </td>
+               <td> Дата проведения ТО </td>
+               <td> Наработка, м/час </td>
+               <td> № заказ-наряда </td>
+               <td> дата заказ-наряда </td>
+               <td> Организация, проводившая ТО </td>
+               <td> зав. N. машины </td>
+               <td> сервисная компания </td>
+           </tr> <!-- Не забываем закрыть HTML-тег строки -->
+
+           {% for maintenance in maintenances %}
+           <tr>
+                <td>{{ maintenance.type.title }}</td>
+                <td>{{ maintenance.date }}</td>
+                <td>{{ maintenance.operating }}</td>
+                <td>{{ maintenance.orders_number }}</td>
+                <td>{{ maintenance.orders_date }}</td>
+                <td>{{ maintenance.organization }}</td>
+                <td>{{ maintenance.car.machine_serial_number }}</td>
+                <td>{{ maintenance.service_company.title }}</td>
+           </tr>
+           {% endfor %}
+       </table> <!-- ... и таблицы -->
+    {% else %}
+       <h2>TO не найдено!</h2>
+   {% endif %}
+{% endblock content %}

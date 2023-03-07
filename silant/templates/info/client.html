@@ -1,0 +1,25 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+<!-- Название у нас будет Product -->
+{% block title %}
+Клиент
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+<hr>
+{% if client %}
+<div>
+    <h5>Название:</h5>
+    <p>{{client.title }}</p>
+</div>
+<div>
+    <h5>Описание:</h5>
+    <p>{{client.description }}</p>
+</div>
+{% else %}
+<h2>Клиент отсутсвует!</h2>
+{% endif %}
+</hr>
+{% endblock content %}

@@ -1,0 +1,56 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+{% load static %}
+
+<!-- Название у нас будет cars -->
+{% block title %}
+Maintenances
+{% endblock title %}
+ 
+<!-- В контенте на странице мы выводим все машины -->
+{% block content %}
+<link link href="{% static 'css/common.css'%}" rel="stylesheet" />
+<link link href="{% static 'css/maintenance.css'%}" rel="stylesheet" />
+<br>
+<h5 class="login-title">Информация о проведенном ТО</h5>
+    <hr class="hr-maintenance">
+    {% if maintenance %}
+       <table class="common-table"> <!-- Начинаем описывать таблицу -->
+        <thead>
+           <tr> <!-- Добавляем строку -->
+               <th> Вид ТО </th>
+               <th> Дата проведения ТО </th>
+               <th> Наработка, м/час </th>
+               <th> № заказ-наряда </th>
+               <th> дата заказ-наряда </th>
+               <th> Организация, проводившая ТО </th>
+               <th> машина </th>
+               <th> сервисная компания </th>
+           </tr> <!-- Не забываем закрыть HTML-тег строки -->
+        </thead>
+
+        <tbody>
+           <tr>
+                <td><a href="{% url 'steerable_bridge_model_detail' maintenance.car.steerable_bridge_model.pk %}">{{ maintenance.type.title }}</a></td>
+                <td>{{ maintenance.date }}</td>
+                <td>{{ maintenance.operating }}</td>
+                <td>{{ maintenance.orders_number }}</td>
+                <td>{{ maintenance.orders_date }}</td>
+                <td>{{ maintenance.organization }}</td>
+                <td><a href="{% url 'car_detail' maintenance.car.pk %}">{{ maintenance.car.machine_serial_number }}</a></td>
+                <td><a href="{% url 'service_company_detail' maintenance.service_company.pk %}">{{ maintenance.service_company.title }}</a></td>
+           </tr>
+        </tbody>
+       </table> <!-- ... и таблицы -->
+    {% else %}
+       <h2>TO не найдено!</h2>
+   {% endif %}
+   {% if user.is_authenticated %}
+   <div class="buttons">
+        <button class="button"><a href="{% url 'maintenance_create' %}" class="a-0">Создать ТО</a></button>
+        <button class="button"><a href="{% url 'maintenance_update' maintenance.pk %}" class="a-0">Редактировать ТО</a></button>
+        <button class="button"><a href="{% url 'maintenance_delete' maintenance.pk %}" class="a-0">Удалить ТО</a></button>
+   </div>
+    {% endif %}
+{% endblock content %}

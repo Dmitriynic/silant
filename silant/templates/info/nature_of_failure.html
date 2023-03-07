@@ -1,0 +1,32 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+<!-- Название у нас будет Product -->
+{% block title %}
+Узел отказа
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+<br>
+<h5>Информация об узле отказа</h5>
+<hr>
+{% if nature_of_failure %}
+<div>
+    <h5>Название:</h5>
+    <p>{{nature_of_failure.title }}</p>
+</div>
+<div>
+    <h5>Описание:</h5>
+    <p>{{nature_of_failure.description }}</p>
+</div>
+{% else %}
+<h2>Узел отказа отсутсвует!</h2>
+{% endif %}
+</hr>
+{% if user.is_superuser or user_in_group_manager %}
+    <button><a href="{% url 'nature_of_failure_create' %}">Создать узел отказа</a></button>
+    <button><a href="{% url 'nature_of_failure_update' nature_of_failure.pk %}">Редактировать узел отказа</a></button>
+    <button><a href="{% url 'nature_of_failure_delete' nature_of_failure.pk %}">Удалить узел отказа</a></button>
+{% endif %}
+{% endblock content %}

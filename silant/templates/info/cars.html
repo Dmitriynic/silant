@@ -1,0 +1,259 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+{% load static %}
+
+<!-- Название у нас будет cars -->
+{% block title %}
+Cars
+{% endblock title %}
+ 
+<!-- В контенте на странице мы выводим все машины -->
+{% block content %}
+    <link href="{% static 'css/common.css'%}" rel="stylesheet" />
+    <link href="{% static 'css/cars.css'%}" rel="stylesheet" />
+    <div class="div-yellow">
+        {% if user.is_authenticated %}
+            {% if user_in_group_manager or user.is_superuser %}
+                <p class="title"> {{ user.username }}</p>
+            {% elif user_in_group_service_company %}
+                <p class="title"> {{ car.0.service_company.title }}</p>
+            {% else %}
+                <p class="title"> {{ car.0.client.title }} </p>
+            {% endif %}
+            <div class="button-1">
+                <button id="filter-button" class="button">Фильтр</button>
+                <div id = "filter-block" class = "hidden">
+                    {# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе #}
+                    <form action="" method="get" class="form-login">
+                        {{filterset.form.non_field_errors}}
+                        {{filterset.form.technique_model__title__icontains.errors }}
+                        <label for="{{filterset.form.technique_model__title__icontains.id_for_label}}" class="label-login">Модель техники</label>
+                        <input 
+                            id="{{filterset.form.technique_model__title__icontains.id}}"
+                            name="{{filterset.form.technique_model__title__icontains.name}}"
+                            value="{{filterset.form.technique_model__title__icontains.id}}"
+                            class="form-login-in"
+                        >
+
+                        {{filterset.form.engine_model__title__icontains.errors }}
+                        <label for="{{filterset.form.engine_model__title__icontains.id_for_label}}"class="label-login">Модель двигателя</label>
+                        <input 
+                            id="{{filterset.form.engine_model__title__icontains.id}}"
+                            name="{{filterset.form.engine_model__title__icontains.name}}"
+                            value="{{filterset.form.engine_model__title__icontains.id}}"
+                            class="form-login-in"
+                        >
+
+                        {{filterset.form.transmission_model__title__icontains.errors }}
+                        <label for="{{filterset.form.transmission_model__title__icontains.id_for_label}}" class="label-login">Модель трансмиссии</label>
+                        <input 
+                            id="{{filterset.form.transmission_model__title__icontains.id}}"
+                            name="{{filterset.form.transmission_model__title__icontains.name}}"
+                            value="{{filterset.form.transmission_model__title__icontains.id}}"
+                            class="form-login-in"
+                        >
+
+                        {{filterset.form.drive_axle_model__title__icontains.errors }}
+                        <label for="{{filterset.form.drive_axle_model__title__icontains.id_for_label}}" class="label-login">Модель ведущего моста</label>
+                        <input 
+                            id="{{filterset.form.drive_axle_model__title__icontains.id}}"
+                            name="{{filterset.form.drive_axle_model__title__icontains.name}}"
+                            value="{{filterset.form.drive_axle_model__title__icontains.id}}"
+                            class="form-login-in"
+                        >
+
+                        {{filterset.form.steerable_bridge_model__title__icontains.errors }}
+                        <label for="{{filterset.form.steerable_bridge_model__title__icontains.id_for_label}}" class="label-login">Модель управляемого моста</label>
+                        <input 
+                            id="{{filterset.form.steerable_bridge_model__title__icontains.id}}"
+                            name="{{filterset.form.steerable_bridge_model__title__icontains.name}}"
+                            value="{{filterset.form.steerable_bridge_model__title__icontains.id}}"
+                            class="form-login-in"
+                        >
+                        <div class="button-2">
+                            <input type="submit" class="button" value="Найти" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="buttons">
+                <button id="table1-button" class="button">Машины</button>
+                <button id="table2-button" class="button">ТО</button>
+                <button id="table3-button" class="button">Рекламации</button>
+            </div>
+        {% else %}
+            <h3 class="title">Проверьте комплектацию и технические характеристики техники Силант</h3>
+            <form class="form-control" action="" method="get">
+                {{filterset.form.non_field_errors}}
+                {{filterset.form.machine_serial_number__icontains.errors }}
+                <input
+                    id="{{filterset.form.machine_serial_number__icontains.id}}"
+                    name="{{filterset.form.machine_serial_number__icontains.name}}"
+                    value="{{filterset.form.machine_serial_number__icontains.id}}"
+                    class="form-control"
+                    placeholder="Заводской номер"
+                >
+                <input type="submit" class="form-button"  value="Найти">
+            </form>
+        {% endif %}
+    </div>
+    <div id="table-container" class="div-white">
+        <h5 id = "table_header_1" style="display:block;" class="login-title">Информация о комплектации и технических характеристиках Вашей техники</h5>
+        <table id = "table1" class="common-table"> <!-- Начинаем описывать таблицу -->
+            {% if cars %}
+            <thead>
+            <tr> <!-- Добавляем строку -->
+                <th> Зав. № машины </th>
+                <th> Модель техники </th>
+                <th> Модель двигателя </th>
+                <th> Зав. № двигателя </th>
+                <th> Модель трансмиссии </th>
+                <th> Зав. № трансмиссии </th>
+                <th> Модель ведущего моста </th>
+                <th> Зав. № ведущего моста </th>
+                <th> Модель управляемого моста </th>
+                <th> Зав. № управляемого моста </th>
+                {% if user.is_authenticated %}
+                    <th> Договор доставки №, дата </th>
+                    <th> Дата отгрузки с завода </th>
+                    <th> Грузополучатель (конечный потребитель) </th>
+                    <th> Адрес поставки (эксплуатации) </th>
+                    <th> Комплектация (доп. опции) </th>
+                    <th> Клиент </th>
+                    <th> Сервисная компания </th>
+                {% endif %}
+            </tr> <!-- Не забываем закрыть HTML-тег строки -->
+            </thead>
+
+
+            <tbody>
+            {% for car in cars %}
+            <tr>
+                    {% if user.is_authenticated %}
+                        <td><a href="{% url 'car_detail' car.pk %}">{{ car.machine_serial_number }}</a></td>
+                        <td><a href="{% url 'technique_model_detail' car.technique_model.pk %}">{{ car.technique_model.title }}</a></td>
+                        <td><a href="{% url 'engine_model_detail' car.engine_model.pk %}">{{ car.engine_model.title }}</a></td>
+                        <td>{{ car.engine_serial_number }}</td>
+                        <td><a href="{% url 'transmission_model_detail' car.transmission_model.pk %}">{{ car.transmission_model.title }}</a></td>
+                        <td>{{ car.transmission_serial_number }}</td>
+                        <td><a href="{% url 'drive_axle_model_detail' car.drive_axle_model.pk %}">{{ car.drive_axle_model.title }}</a></td>
+                        <td>{{ car.drive_axle_serial_number }}</td>
+                        <td><a href="{% url 'steerable_bridge_model_detail' car.steerable_bridge_model.pk %}">{{ car.steerable_bridge_model.title }}</a></td>
+                        <td>{{ car.steerable_bridge_serial_number }}</td>
+                        <td>{{ car.supply_contract }}</td>
+                        <td>{{ car.date_of_shipment }}</td>
+                        <td>{{ car.end_user }}</td>
+                        <td>{{ car.delivery_address|truncatechars:20 }}</td>
+                        <td>{{ car.equipment|truncatewords:6 }}</td>
+                        <td><a href="{% url 'client_detail' car.client.pk %}">{{ car.client.title }}</a></td>
+                        <td><a href="{% url 'service_company_detail' car.service_company.pk %}">{{ car.service_company.title }}</a></td>
+                    {% else %}
+                        <td>{{ car.machine_serial_number }}</td>
+                        <td>{{ car.technique_model.title }}</td>
+                        <td>{{ car.engine_model.title }}</td>
+                        <td>{{ car.engine_serial_number }}</td>
+                        <td>{{ car.transmission_model.title }}</td>
+                        <td>{{ car.transmission_serial_number }}</td>
+                        <td>{{ car.drive_axle_model.title }}</td>
+                        <td>{{ car.drive_axle_serial_number }}</td>
+                        <td>{{ car.steerable_bridge_model.title }}</td>
+                        <td>{{ car.steerable_bridge_serial_number }}</td>
+                    {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+            {% else %}
+                {% if page_obj.number == 1 %} <!-- Проверяем, что находимся на первой странице -->
+                    <tr>
+                        <td colspan="17">Машин нет!</td> <!-- Указываем количество объединенных ячеек -->
+                    </tr>
+                {% endif %}
+            {% endif %}
+        </table> <!-- ... и таблицы -->
+
+        <table id = "table2" class="common-table"> <!-- Начинаем описывать таблицу -->
+        <h2 id="table_header_2" style="display:none;" class="login-title">Информация о проведенных ТО Вашей техники</h2>
+        {% if maintenances %}
+            <thead>
+                <tr> <!-- Добавляем строку -->
+                    <th> № </th>
+                    <th> Вид ТО </th>
+                    <th> Дата проведения ТО </th>
+                    <th> Наработка, м/час </td>
+                    <th> № заказ-наряда </th>
+                    <th> дата заказ-наряда </th>
+                    <th> Организация, проводившая ТО </th>
+                    <th> зав. N. машины </th>
+                    <th> сервисная компания </th>
+                </tr> <!-- Не забываем закрыть HTML-тег строки -->
+            </thead>
+            <tbody>
+            {% for maintenance in maintenances %}
+                <tr>
+                    <td><a href="{% url 'maintenance_detail' maintenance.pk %}">{{ forloop.counter }}</a></td>
+                    <td><a href="{% url 'type_of_maintenance_detail' maintenance.type.pk %}">{{ maintenance.type.title }}</a></td>
+                    <td>{{ maintenance.date }}</td>
+                    <td>{{ maintenance.operating }}</td>
+                    <td>{{ maintenance.orders_number }}</td>
+                    <td>{{ maintenance.orders_date }}</td>
+                    <td>{{ maintenance.organization }}</td>
+                    <td><a href="{% url 'car_detail' maintenance.car.pk %}">{{ maintenance.car.machine_serial_number }}</a></td>
+                    <td><a href="{% url 'service_company_detail' maintenance.service_company.pk %}">{{ maintenance.service_company.title }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% else %}
+                {% if page_obj.number == 1 %} <!-- Проверяем, что находимся на первой странице -->
+                    <tr>
+                        <td colspan="8">ТО не найдено!</td> <!-- Указываем количество объединенных ячеек -->
+                    </tr>
+                {% endif %}
+        {% endif %}
+        </table> <!-- ... и таблицы -->
+
+        <table id = "table3" class="common-table"> <!-- Начинаем описывать таблицу -->
+        <h5 id="table_header_3" style="display:none;" class="login-title">Информация о рекламациях Вашей техники</h5>
+        {% if complaints %}
+        <tr> <!-- Добавляем строку -->
+            <th> № </th>
+            <th> Дата отказа </th>
+            <th> Наработка, м/час </th>
+            <th> Узел отказа </th>
+            <th> Описание отказа </th>
+            <th> Способ восстановления </th>
+            <th> Используемые запасные части </th>
+            <th> Дата восстановления </th>
+            <th> Время простоя техники </th>
+            <th> машина </th>
+            <th> сервисная компания </th>
+        </tr> <!-- Не забываем закрыть HTML-тег строки -->
+
+        {% for complaint in complaints %}
+        <tr>
+            <td><a href="{% url 'complaint_detail' complaint.pk %}">{{ forloop.counter }}</a></td>
+            <td>{{ complaint.orders_date }}</td>
+            <td>{{ complaint.operating }}</td>
+            <td><a href="{% url 'nature_of_failure_detail' complaint.order_note.pk %}">{{ complaint.order_note.title }}</a></td>
+            <td>{{ complaint.order_description }}</td>
+            <td><a href="{% url 'recovery_method_detail' complaint.recovery_method.pk %}">{{ complaint.recovery_method.title }}</a></td>
+            <td>{{ complaint.used_spare_parts }}</td>
+            <td>{{ complaint.recovery_date }}</td>
+            <td>{{ complaint.downtime }}</td>
+            <td><a href="{% url 'car_detail' complaint.car.pk %}">{{ complaint.car.machine_serial_number }}</a></td>
+            <td><a href="{% url 'service_company_detail' complaint.service_company.pk %}">{{ complaint.service_company.title }}</a></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+            {% if page_obj.number == 1 %} <!-- Проверяем, что находимся на первой странице -->
+                <tr>
+                    <td colspan="10">Рекламаций нет!</td> <!-- Указываем количество объединенных ячеек -->
+                </tr>
+            {% endif %}
+        {% endif %}
+        </table> <!-- ... и таблицы -->
+    </div>
+    {% block extra_js %}
+        <script src="{% static 'js/myscript.js' %}"></script>
+    {% endblock %}
+{% endblock content %}

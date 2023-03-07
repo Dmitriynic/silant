@@ -1,0 +1,56 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+
+<!-- Название у нас будет cars -->
+{% block title %}
+Complaints
+{% endblock title %}
+ 
+<!-- В контенте на странице мы выводим все машины -->
+{% block content %}
+   <h1>Все рекламации</h1>
+
+   {# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе #}
+   <form action = "" method = "get">
+       {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
+       {{ filterset.form.as_p}}
+       {# Добавим кнопку отправки данных формы #}
+       <input type = "submit" valut = "Найти" />
+    </form>
+
+    <hr>
+    {% if complaints %}
+       <table> <!-- Начинаем описывать таблицу -->
+           <tr> <!-- Добавляем строку -->
+               <td> Дата отказа </td>
+               <td> Наработка, м/час </td>
+               <td> Узел отказа </td>
+               <td> Описание отказа </td>
+               <td> Способ восстановления </td>
+               <td> Используемые запасные части </td>
+               <td> Дата восстановления </td>
+               <td> Время простоя техники </td>
+               <td> машина </td>
+               <td> сервисная компания </td>
+           </tr> <!-- Не забываем закрыть HTML-тег строки -->
+
+           {% for complaint in complaints %}
+           <tr>
+               <td>{{ complaint.orders_date }}</td>
+               <td>{{ complaint.operating }}</td>
+               <td>{{ complaint.order_note.title }}</td>
+               <td>{{ complaint.order_description }}</td>
+               <td>{{ complaint.recovery_method.title }}</td>
+               <td>{{ complaint.used_spare_parts }}</td>
+               <td>{{ complaint.recovery_date }}</td>
+               <td>{{ complaint.downtime }}</td>
+               <td>{{ complaint.car.machine_serial_number }}</td>
+               <td>{{ complaint.service_company.title }}</td>
+           </tr>
+           {% endfor %}
+       </table> <!-- ... и таблицы -->
+    {% else %}
+       <h2>Рекламаций нет!</h2>
+   {% endif %}
+{% endblock content %}

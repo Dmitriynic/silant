@@ -1,0 +1,51 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+
+<!-- Название у нас будет cars -->
+{% block title %}
+Complaint
+{% endblock title %}
+ 
+<!-- В контенте на странице мы выводим все машины -->
+{% block content %}
+    <br>
+    <h5>Информация о рекламации</h5>
+    <hr>
+    {% if complaint %}
+       <table> <!-- Начинаем описывать таблицу -->
+           <tr> <!-- Добавляем строку -->
+               <td> Дата отказа </td>
+               <td> Наработка, м/час </td>
+               <td> Узел отказа </td>
+               <td> Описание отказа </td>
+               <td> Способ восстановления </td>
+               <td> Используемые запасные части </td>
+               <td> Дата восстановления </td>
+               <td> Время простоя техники </td>
+               <td> машина </td>
+               <td> сервисная компания </td>
+           </tr> <!-- Не забываем закрыть HTML-тег строки -->
+
+           <tr>
+                <td>{{ complaint.orders_date }}</td>
+                <td>{{ complaint.operating }}</td>
+                <td><a href="{% url 'nature_of_failure_detail' complaint.order_note.pk %}">{{ complaint.order_note.title }}</a></td>
+                <td>{{ complaint.order_description }}</td>
+                <td><a href="{% url 'recovery_method_detail' complaint.recovery_method.pk %}">{{ complaint.recovery_method.title }}</a></td>
+                <td>{{ complaint.used_spare_parts }}</td>
+                <td>{{ complaint.recovery_date }}</td>
+                <td>{{ complaint.downtime }}</td>
+                <td><a href="{% url 'car_detail' complaint.car.pk %}">{{ complaint.car.machine_serial_number }}</a></td>
+                <td><a href="{% url 'service_company_detail' complaint.service_company.pk %}">{{ complaint.service_company.title }}</a></td>
+           </tr>
+       </table> <!-- ... и таблицы -->
+    {% else %}
+       <h2>Рекламаций нет!</h2>
+   {% endif %}
+    {% if user.is_superuser or user_in_group_manager or user_in_group_service_company %}
+        <button><a href="{% url 'complaint_create' %}">Создать рекламацию</a></button>
+        <button><a href="{% url 'complaint_update' complaint.pk %}">Редактировать рекламацию</a></button>
+        <button><a href="{% url 'complaint_delete' complaint.pk %}">Удалить рекламацию</a></button>
+    {% endif %}
+{% endblock content %}

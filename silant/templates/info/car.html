@@ -1,0 +1,159 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% csrf_token %}
+{% load static %}
+<!-- Название у нас будет Product -->
+{% block title %}
+Car
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+    <br>
+    <link link href="{% static 'css/common.css'%}" rel="stylesheet" />
+    <link link href="{% static 'css/car.css'%}" rel="stylesheet" />
+    <p class="login-title">Машина: {{ car.technique_model.title }}</p>
+    <p class="login-title">Заводской номер: {{ car.machine_serial_number }}</p>
+    <div class="buttons">
+        <button id="table1-button" data-id="{{ car.pk }}" class="button">Показать машину</button>
+        <button id="table2-button" class="button">Показать TO</button>
+        <button id="table3-button" class="button">Показать рекламации</button>
+    </div>
+        <hr>
+    <div id="table-container">
+        <table id = "table1" class="common-table"> <!-- Начинаем описывать таблицу -->
+        <h5 id = "table_header_1" style="display:block;" class="login-title">Информация о комплектации и технических характеристиках Вашей техники</h5>
+        {% if car %}
+        <thead>
+            <tr> <!-- Добавляем строку -->
+                <th> Зав. № машины </th>
+                <th> Модель техники </th>
+                <th> Модель двигателя </td>
+                <th> Зав. № двигателя </th>
+                <th> Модель трансмиссии </td>
+                <th> Зав. № трансмиссии </th>
+                <th> Модель ведущего моста </th>
+                <th> Зав. № ведущего моста </td>
+                <th> Модель управляемого моста </th>
+                <th> Зав. № управляемого моста </th>
+                <th> Договор доставки №, дата </th>
+                <th> Дата отгрузки с завода </th>
+                <th> Грузополучатель (конечный потребитель) </th>
+                <th> Адрес поставки (эксплуатации) </th>
+                <th> Комплектация (доп. опции) </th>
+                <th> Клиент </th>
+                <th> Сервисная компания </th>
+            </tr> <!-- Не забываем закрыть HTML-тег строки -->
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>{{ car.machine_serial_number }}</td>
+                <td><a href="{% url 'technique_model_detail' car.technique_model.pk %}">{{ car.technique_model.title }}</a></td>
+                <td><a href="{% url 'engine_model_detail' car.engine_model.pk %}">{{ car.engine_model.title }}</a></td>
+                <td>{{ car.engine_serial_number }}</td>
+                <td><a href="{% url 'transmission_model_detail' car.transmission_model.pk %}">{{ car.transmission_model.title }}</a></td>
+                <td>{{ car.transmission_serial_number }}</td>
+                <td><a href="{% url 'drive_axle_model_detail' car.drive_axle_model.pk %}">{{ car.drive_axle_model.title }}</a></td>
+                <td>{{ car.drive_axle_serial_number }}</td>
+                <td><a href="{% url 'steerable_bridge_model_detail' car.steerable_bridge_model.pk %}">{{ car.steerable_bridge_model.title }}</a></td>
+                <td>{{ car.steerable_bridge_serial_number }}</td>
+                <td>{{ car.supply_contract }}</td>
+                <td>{{ car.date_of_shipment }}</td>
+                <td>{{ car.end_user }}</td>
+                <td>{{ car.delivery_address|truncatechars:20 }}</td>
+                <td>{{ car.equipment|truncatewords:6 }}</td>
+                <td>{{ car.client.title }}</td>
+                <td>{{ car.service_company.title }}</td>
+            </tr>
+        </tbody>
+        </table> <!-- ... и таблицы -->
+        {% else %}
+        <h2>Автомобиль отсутствует нет!</h2>
+        {% endif %}
+        </hr>
+        {% if user.is_superuser or user_in_group_manager %}
+            <div class="buttons">
+                <button class="button"><a href="{% url 'car_create' %}" class="a-0">Создать машину</a></button>
+                <button class="button"><a href="{% url 'car_update' car.pk %}" class="a-0">Редактировать машину</a></button>
+                <button class="button"><a href="{% url 'car_delete' car.pk %}" class="a-0">Удалить машину</a></button>
+            </div>
+         {% endif %}
+        <table id = "table2"> <!-- Начинаем описывать таблицу -->
+        <h5 id="table_header_2" style="display:none;">Информация о проведенных ТО Вашей техники</h5>
+        {% if maintenances %}
+        <tr> <!-- Добавляем строку -->
+            <td> Вид ТО </td>
+            <td> Дата проведения ТО </td>
+            <td> Наработка, м/час </td>
+            <td> № заказ-наряда </td>
+            <td> дата заказ-наряда </td>
+            <td> Организация, проводившая ТО </td>
+            <td> зав. N. машины </td>
+            <td> сервисная компания </td>
+            </tr> <!-- Не забываем закрыть HTML-тег строки -->
+
+            {% for maintenance in maintenances %}
+            <tr>
+            <td><a href="{% url 'steerable_bridge_model_detail' maintenance.car.steerable_bridge_model.pk %}">{{ maintenance.type.title }}</a></td>
+            <td>{{ maintenance.date }}</td>
+            <td>{{ maintenance.operating }}</td>
+            <td>{{ maintenance.orders_number }}</td>
+            <td>{{ maintenance.orders_date }}</td>
+            <td>{{ maintenance.organization }}</td>
+            <td><a href="{% url 'car_detail' maintenance.car.pk %}">{{ maintenance.car.machine_serial_number }}</a></td>
+            <td><a href="{% url 'service_company_detail' maintenance.service_company.pk %}">{{ maintenance.service_company.title }}</a></td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            {% if page_obj.number == 1 %} <!-- Проверяем, что находимся на первой странице -->
+                <tr>
+                    <td colspan="8">ТО не найдено!</td> <!-- Указываем количество объединенных ячеек -->
+                </tr>
+            {% endif %}
+        {% endif %}
+        </table> <!-- ... и таблицы -->
+
+        <table id = "table3"> <!-- Начинаем описывать таблицу -->
+        <h5 id="table_header_3" style="display:none;" class>Информация о рекламациях Вашей техники</h5>
+        {% if complaints %}
+        <tr> <!-- Добавляем строку -->
+            <td> Дата отказа </td>
+            <td> Наработка, м/час </td>
+            <td> Узел отказа </td>
+            <td> Описание отказа </td>
+            <td> Способ восстановления </td>
+            <td> Используемые запасные части </td>
+            <td> Дата восстановления </td>
+            <td> Время простоя техники </td>
+            <td> машина </td>
+            <td> сервисная компания </td>
+        </tr> <!-- Не забываем закрыть HTML-тег строки -->
+
+        {% for complaint in complaints %}
+        <tr>
+            <td>{{ complaint.orders_date }}</td>
+            <td>{{ complaint.operating }}</td>
+            <td><a href="{% url 'nature_of_failure_detail' complaint.order_note.pk %}">{{ complaint.order_note.title }}</a></td>
+            <td>{{ complaint.order_description }}</td>
+            <td><a href="{% url 'recovery_method_detail' complaint.recovery_method.pk %}">{{ complaint.recovery_method.title }}</a></td>
+            <td>{{ complaint.used_spare_parts }}</td>
+            <td>{{ complaint.recovery_date }}</td>
+            <td>{{ complaint.downtime }}</td>
+            <td><a href="{% url 'car_detail' complaint.car.pk %}">{{ complaint.car.machine_serial_number }}</a></td>
+            <td><a href="{% url 'service_company_detail' complaint.service_company.pk %}">{{ complaint.service_company.title }}</a></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+            {% if page_obj.number == 1 %} <!-- Проверяем, что находимся на первой странице -->
+                <tr>
+                    <td colspan="10">Рекламаций нет!</td> <!-- Указываем количество объединенных ячеек -->
+                </tr>
+            {% endif %}
+        {% endif %}
+        </table> <!-- ... и таблицы -->
+    </div>
+    {% block extra_js %}
+        <script src="{% static 'js/myscript2.js' %}"></script>
+    {% endblock %}
+{% endblock content %}
