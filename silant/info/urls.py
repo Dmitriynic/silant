@@ -1,0 +1,77 @@
+
+from django.urls import path
+#Импортируем созданное нами представление
+from .views import (
+    CarsList, CarDetail, CarCreate, CarUpdate, CarDelete, MaintenancesList, 
+    MaintenanceDetail, MaintenanceCreate, MaintenanceUpdate, MaintenanceDelete,
+    ComplaintsList, ComplaintDetail, ComplaintCreate, ComplaintUpdate, ComplaintDelete,
+    TechniqueModelDetail, TechniqueModelCreate, TechniqueModelUpdate, TechniqueModelDelete, 
+    EngineModelDetail, EngineModelCreate, EngineModelUpdate, EngineModelDelete, TransmissionModelDetail,
+    TransmissionModelCreate, TransmissionModelUpdate, TransmissionModelDelete,
+    DriveAxleModelDetail, DriveAxleModelCreate, DriveAxleModelUpdate, DriveAxleModelDelete,
+    SteerableBridgeModelDetail, SteerableBridgeModelCreate, SteerableBridgeModelUpdate,
+    SteerableBridgeModelDelete, TypeOfMaintenanceDetail, TypeOfMaintenanceCreate,
+    TypeOfMaintenanceUpdate, TypeOfMaintenanceDelete, NatureOfFailureDetail,
+    NatureOfFailureCreate, NatureOfFailureUpdate, NatureOfFailureDelete,
+    RecoveryMethodDetail, RecoveryMethodCreate, RecoveryMethodUpdate,
+    RecoveryMethodDelete, ServiceCompanyDetail, ClientDetail, 
+                    )
+
+urlpatterns = [
+    #path - означает путь.
+    #В данном случае путь ко всем машинам у нас останется пустым,
+    #чуть позже станет ясно почему.
+    #а Django ожидает функцию, нам надо представить этот класс в виде view.
+    #Для этого вызываем метод as_view.
+    path('cars/', CarsList.as_view(), name = 'car_list'),
+    #pk - это первичный ключ машины, который будет выводиться у нас в шаблон
+    #int - указывает на то, что принимаются только целочисленные значения
+    path('cars/<int:pk>/', CarDetail.as_view(), name = 'car_detail'),
+    path('cars/create/', CarCreate.as_view(), name = 'car_create'),
+    path('cars/<int:pk>/update/', CarUpdate.as_view(), name = 'car_update'),
+    path('cars/<int:pk>/delete/', CarDelete.as_view(), name = 'car_delete'),
+    path('maintenances/', MaintenancesList.as_view(), name = 'maintenance_list'),
+    path('maintenances/<int:pk>/', MaintenanceDetail.as_view(), name = 'maintenance_detail'),
+    path('maintenances/create/', MaintenanceCreate.as_view(), name = 'maintenance_create'),
+    path('maintenances/<int:pk>/update/', MaintenanceUpdate.as_view(), name = 'maintenance_update'),
+    path('maintenances/<int:pk>/delete/', MaintenanceDelete.as_view(), name = 'maintenance_delete'),
+    path('complaints/', ComplaintsList.as_view(), name = 'complaint_list'),
+    path('complaints/<int:pk>/', ComplaintDetail.as_view(), name = 'complaint_detail'),
+    path('complaints/create/', ComplaintCreate.as_view(), name = 'complaint_create'),
+    path('complaints/<int:pk>/update/', ComplaintUpdate.as_view(), name = 'complaint_update'),
+    path('complaints/<int:pk>/delete/', ComplaintDelete.as_view(), name = 'complaint_delete'),
+    path('cars/technique_model/<int:pk>/', TechniqueModelDetail.as_view(), name = 'technique_model_detail'),
+    path('cars/technique_model/create/', TechniqueModelCreate.as_view(), name = 'technique_model_create'),
+    path('cars/technique_model/<int:pk>/update/', TechniqueModelUpdate.as_view(), name = 'technique_model_update'),
+    path('cars/technique_model/<int:pk>/delete/', TechniqueModelDelete.as_view(), name = 'technique_model_delete'),
+    path('cars/engine_model/<int:pk>/', EngineModelDetail.as_view(), name = 'engine_model_detail'),
+    path('cars/engine_model/create/', EngineModelCreate.as_view(), name = 'engine_model_create'),
+    path('cars/engine_model/<int:pk>/update/', EngineModelUpdate.as_view(), name = 'engine_model_update'),
+    path('cars/engine_model/<int:pk>/delete/', EngineModelDelete.as_view(), name = 'engine_model_delete'),
+    path('cars/transmission_model/<int:pk>/', TransmissionModelDetail.as_view(), name = 'transmission_model_detail'),
+    path('cars/transmission_model/create/', TransmissionModelCreate.as_view(), name = 'transmission_model_create'),
+    path('cars/transmission_model/<int:pk>/update/', TransmissionModelUpdate.as_view(), name = 'transmission_model_update'),
+    path('cars/transmission_model/<int:pk>/delete/', TransmissionModelDelete.as_view(), name = 'transmission_model_delete'),
+    path('cars/drive_axle_model/<int:pk>/', DriveAxleModelDetail.as_view(), name = 'drive_axle_model_detail'),
+    path('cars/drive_axle_model_model/create/', DriveAxleModelCreate.as_view(), name = 'drive_axle_model_create'),
+    path('cars/drive_axle_model/<int:pk>/update/', DriveAxleModelUpdate.as_view(), name = 'drive_axle_model_update'),
+    path('cars/drive_axle_model/<int:pk>/delete/', DriveAxleModelDelete.as_view(), name = 'drive_axle_model_delete'),
+    path('cars/steerable_bridge_model/<int:pk>/', SteerableBridgeModelDetail.as_view(), name = 'steerable_bridge_model_detail'),
+    path('cars/steerable_bridge_model/create/', SteerableBridgeModelCreate.as_view(), name = 'steerable_bridge_model_create'),
+    path('cars/steerable_bridge_model/<int:pk>/update/', SteerableBridgeModelUpdate.as_view(), name = 'steerable_bridge_model_update'),
+    path('cars/steerable_bridge_model/<int:pk>/delete/', SteerableBridgeModelDelete.as_view(), name = 'steerable_bridge_model_delete'),
+    path('maintenances/type_of_maintenance/<int:pk>/', TypeOfMaintenanceDetail.as_view(), name = 'type_of_maintenance_detail'),
+    path('maintenances/type_of_maintenance/create/', TypeOfMaintenanceCreate.as_view(), name = 'type_of_maintenance_create'),
+    path('maintenances/type_of_maintenance/<int:pk>/update/', TypeOfMaintenanceUpdate.as_view(), name = 'type_of_maintenance_update'),
+    path('maintenances/type_of_maintenance/<int:pk>/delete/', TypeOfMaintenanceDelete.as_view(), name = 'type_of_maintenance_delete'),
+    path('complaints/nature_of_failure/<int:pk>/', NatureOfFailureDetail.as_view(), name = 'nature_of_failure_detail'),
+    path('complaints/nature_of_failure/create/', NatureOfFailureCreate.as_view(), name = 'nature_of_failure_create'),
+    path('complaints/nature_of_failure/<int:pk>/update/', NatureOfFailureUpdate.as_view(), name = 'nature_of_failure_update'),
+    path('complaints/nature_of_failure/<int:pk>/delete/', NatureOfFailureDelete.as_view(), name = 'nature_of_failure_delete'),
+    path('complaints/recovery_method_detail/<int:pk>/', RecoveryMethodDetail.as_view(), name = 'recovery_method_detail'),
+    path('complaints/recovery_method/create/', RecoveryMethodCreate.as_view(), name = 'recovery_method_create'),
+    path('complaints/recovery_method/<int:pk>/update/', RecoveryMethodUpdate.as_view(), name = 'recovery_method_update'),
+    path('complaints/recovery_method/<int:pk>/delete/', RecoveryMethodDelete.as_view(), name = 'recovery_method_delete'),
+    path('cars/client_detail/<int:pk>/', ClientDetail.as_view(), name = 'client_detail'),
+    path('cars/service_company_detail/<int:pk>/', ServiceCompanyDetail.as_view(), name = 'service_company_detail'),
+]
