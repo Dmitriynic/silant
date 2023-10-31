@@ -1,6 +1,6 @@
 <h2 align="center">Forkit maintenance service for Silant company</h2>
 <p align="center">
-    <img src="https://ibb.co/sqn16wY" alt="Project Logo" width="300">
+    <img src="https://ibb.co/sqn16wY" alt="Project Logo">
 </p>
 <hr>
 <p align="center">
@@ -10,7 +10,7 @@
 </p>
 
 ## Descriptions
-<hr>
+
 The service stores the following data about Silant warehouse
 equipment:
 <ul>
@@ -33,7 +33,6 @@ The manager has access to data on all machines, and alse
 has the ability to edit directories.
 
 ## Functionality
-<hr>
 
 The service has different functionality for users with different roles.
 Key functionality: issuing information about cars in the form of tables from databases(technical characteristics,
@@ -87,7 +86,6 @@ The data is located on several tabs (according to the tables “Machine”, “M
 </ul>
 
 ## How to run
-<hr>
 
 `python -m venv venv`
 
