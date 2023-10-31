@@ -1,6 +1,6 @@
 <h2 align="center">Forkit maintenance service for Silant company</h2>
 <p align="center">
-    <img src="/Users/dmitriy/Downloads/Logotype\ accent\ RGB\ 2.jpg" alt="Project Logo" width="300">
+    <img src="https://ibb.co/sqn16wY" alt="Project Logo" width="300">
 </p>
 <hr>
 <p align="center">
