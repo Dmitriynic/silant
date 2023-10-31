@@ -1,7 +1,5 @@
 <h2 align="center">Forkit maintenance service for Silant company</h2>
-<p align="center">
-    <img src="https://ibb.co/sqn16wY" alt="Project Logo", width="500">
-</p>
+![Silant logo](https://i.ibb.co/Xt153sR/Logotype-accent-RGB-2.jpg)
 <p align="center">
    <img alt="Static Badge" src="https://img.shields.io/badge/Python-3.9.13-red">
    <img alt="Static Badge" src="https://img.shields.io/badge/Django-4.2.6-blue">
@@ -84,9 +82,9 @@ The data is located on several tabs (according to the tables “Machine”, “M
 <li><a href="https://ibb.co/sv4zgpH">complaints</a></li>
 </ul>
 
-<a href="https://i.ibb.co/pX5ywH1/2023-10-31-22-02-26.png">Data's model</a>
+<a href="https://i.ibb.co/DR8pSkv/2023-10-31-22-33-48.png">Data's model</a>
 
-<a href="https://i.ibb.co/wr4VLjS/2023">Machine life cycle</a>
+<a href="https://i.ibb.co/K054sF3/2023-10-31-22-33-56.png">Machine life cycle</a>
 
 ## How to run
 
