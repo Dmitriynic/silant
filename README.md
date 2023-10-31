@@ -1,6 +1,6 @@
 <h2 align="center">Forkit maintenance service for Silant company</h2>
 <p align="center">
-    <img src="[https://ibb.co/sqn16wY](https://i.ibb.co/Xt153sR/Logotype-accent-RGB-2.jpg)" alt="Project Logo">
+    <img src="https://ibb.co/sqn16wY" alt="Project Logo", width="500">
 </p>
 <p align="center">
    <img alt="Static Badge" src="https://img.shields.io/badge/Python-3.9.13-red">
@@ -79,14 +79,14 @@ Authorized users have different access to data and receive tables with data abou
 
 The data is located on several tabs (according to the tables “Machine”, “Maintenance”, “complaints”):
 <ul>
-<li><a href="[https://ibb.co/sq1LV7s](https://i.ibb.co/6Ft6WQD/2023-10-31-22-02-00.png)">machine</a></li>
-<li><a href="[https://ibb.co/QXzm8VR](https://i.ibb.co/TrphKGS/2023-10-31-22-02-10.png)">maintenance</a></li>
-<li><a href="[https://ibb.co/sv4zgpH](https://i.ibb.co/6RSLycB/2023-10-31-22-02-19.png)">complaints</a></li>
+<li><a href="https://ibb.co/sq1LV7s">machine</a></li>
+<li><a href="https://ibb.co/QXzm8VR">maintenance</a></li>
+<li><a href="https://ibb.co/sv4zgpH">complaints</a></li>
 </ul>
 
 <a href="https://i.ibb.co/pX5ywH1/2023-10-31-22-02-26.png">Data's model</a>
 
-<a href="[https://i.ibb.co/wr4VLjS/2023](https://i.ibb.co/wr4VLjS/2023-10-31-22-02-35.png)">Machine life cycle</a>
+<a href="https://i.ibb.co/wr4VLjS/2023">Machine life cycle</a>
 
 ## How to run
 
