@@ -84,7 +84,8 @@ The data is located on several tabs (according to the tables “Machine”, “M
 <li><a href="[https://ibb.co/sv4zgpH](https://i.ibb.co/6RSLycB/2023-10-31-22-02-19.png)">complaints</a></li>
 </ul>
 
-<a href="[https://i.ibb.co/pX5ywH1/2023-10-31-22-02-26.png](https://i.ibb.co/pX5ywH1/2023-10-31-22-02-26.png)">Data's model</a>
+<a href="https://i.ibb.co/pX5ywH1/2023-10-31-22-02-26.png">Data's model</a>
+
 <a href="[https://i.ibb.co/wr4VLjS/2023](https://i.ibb.co/wr4VLjS/2023-10-31-22-02-35.png)">Machine life cycle</a>
 
 ## How to run
