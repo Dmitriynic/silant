@@ -1,5 +1,5 @@
 <h2 align="center">Forkit maintenance service for Silant company</h2>
-<p aling="center">
+<p align="center">
    <img src="https://i.ibb.co/Xt153sR/Logotype-accent-RGB-2.jpg" height="300">
 </p>
 <p align="center">
