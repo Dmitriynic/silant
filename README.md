@@ -1,6 +1,6 @@
 <h2 align="center">Forkit maintenance service for Silant company</h2>
 <p aling="center">
-   <img src="https://i.ibb.co/Xt153sR/Logotype-accent-RGB-2.jpg" width="500">
+   <img src="https://i.ibb.co/Xt153sR/Logotype-accent-RGB-2.jpg" height="300">
 </p>
 <p align="center">
    <img alt="Static Badge" src="https://img.shields.io/badge/Python-3.9.13-red">
